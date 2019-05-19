@@ -13,7 +13,7 @@ public class TaskListContent {
 
     public static final Map<String, Task> ITEM_MAP = new HashMap<>();
 
-    private static final int COUNT = 5;
+    private static final int COUNT = 3;
 
     static {
         for (int i = 1; i <= COUNT; i++) {
@@ -27,7 +27,7 @@ public class TaskListContent {
     }
 
     private static TaskListContent.Task createItem(int position) {
-        return new TaskListContent.Task (String.valueOf(position), "Item " + position, makeDetails(position), "smth");
+        return new TaskListContent.Task (String.valueOf(position), "Item " + position, "dipa", "smth");
     }
 
     private static String makeDetails(int position) {
