@@ -3,4 +3,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_title">default title</string>
+    <string name="default_artist">default artist</string>
+    <string name="default_date">default date</string>
+    <string name="myFileprovider">com.example.homework2.fileprovider</string>
 </resources>
