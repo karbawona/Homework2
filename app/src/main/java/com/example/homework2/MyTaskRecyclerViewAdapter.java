@@ -1,11 +1,12 @@
 package com.example.homework2;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,26 +35,27 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        TaskListContent.Task task = mValues.get(position);
+        final TaskListContent.Task task = mValues.get(position);
         holder.mItem = task;
         holder.mTextView.setText(task.title);
-
         final String photoPath = task.photoPath;
 
-        Context context = holder.mView.getContext();
+        Context context = holder.mView.getContext(); //?
 
-//        taskDrawable = context.getResources().getDrawable(1);
-//
-//        holder.mItemImageView.setImageDrawable(taskDrawable);
+        if (photoPath != null && !photoPath.isEmpty()) {
+            Bitmap camera = PicUtils.decodePic(task.photoPath, 100, 100);
+            holder.mImageView.setImageBitmap(camera);
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    mListener.onListFragmentInteraction(holder.mItem, position);
+                    mListener.onListFragmentClickInteraction(holder.mItem, position);
                 }
             }
         });
+
 
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -68,6 +70,12 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
 
         });
 
+        holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onDeleteButtonClickInteraction(task);
+            }
+        });
     }
 
     @Override
@@ -79,6 +87,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         public final View mView;
         public final TextView mTextView;
         public final ImageView mImageView;
+        public final Button buttonDelete;
         public  TaskListContent.Task mItem;
 
         public ViewHolder(View view) {
@@ -86,6 +95,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
             mView = view;
             mTextView = view.findViewById(R.id.textView);
             mImageView = view.findViewById(R.id.imageView);
+            buttonDelete = view.findViewById(R.id.buttonDelete);
         }
 
         @Override
