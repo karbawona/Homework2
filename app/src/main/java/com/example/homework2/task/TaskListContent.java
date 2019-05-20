@@ -1,12 +1,15 @@
 package com.example.homework2.task;
 
+
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-
+import com.example.homework2.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 
 public class TaskListContent {
@@ -16,13 +19,13 @@ public class TaskListContent {
 
     public static final Map<String, Task> ITEM_MAP = new HashMap<>();
 
-    private static final int COUNT = 3;
+//    private static final int COUNT = 3;
 
-    static {
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createItem(i));
-        }
-    }
+//    static {
+//        for (int i = 1; i <= COUNT; i++) {
+//            addItem(createItem(i));
+//        }
+//    }
 
     public static void addItem(Task item) {
         ITEMS.add(item);
@@ -34,18 +37,23 @@ public class TaskListContent {
         ITEM_MAP.remove(item.id);
     }
 
-    private static TaskListContent.Task createItem(int position) {
-        return new TaskListContent.Task (String.valueOf(position), "Item " + position, "dipa", "smth");
+//    //private static TaskListContent.Task createItem(int position) {
+//        return new TaskListContent.Task (String.valueOf(position), "title " + position, "art", "date");
+//    }
+
+    public static void clearList() {
+        ITEMS.clear();
+        ITEM_MAP.clear();
     }
 
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
-    }
+//    private static String makeDetails(int position) {
+//        StringBuilder builder = new StringBuilder();
+//        builder.append("Details about Item: ").append(position);
+//        for (int i = 0; i < position; i++) {
+//            builder.append("\nMore details information here.");
+//        }
+//        return builder.toString();
+//    }
 
 
     public static class Task implements Parcelable {
@@ -56,6 +64,7 @@ public class TaskListContent {
         public String photoPath;
 
         public Task(String id, String title, String artist, String date) {
+
             this.id = id;
             this.title = title;
             this.photoPath = "";

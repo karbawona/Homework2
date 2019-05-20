@@ -2,6 +2,7 @@ package com.example.homework2;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,14 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.homework2.task.TaskListContent;
-
+import static com.example.homework2.PicUtils.calculateInSampleSize;
 
 public class DetailsMusicFragment extends Fragment {
 
     private TaskListContent.Task task1;
 
     public DetailsMusicFragment() {
-        // Required empty public constructor
     }
 
 
@@ -40,7 +40,7 @@ public class DetailsMusicFragment extends Fragment {
     }
 
 
-    public void displayTask(TaskListContent.Task  task) {
+    public void displayTask(TaskListContent.Task task) {
         FragmentActivity activity = getActivity();
 
         (activity.findViewById(R.id.detailsFragment)).setVisibility(View.VISIBLE);
@@ -54,24 +54,10 @@ public class DetailsMusicFragment extends Fragment {
         artistMusic.setText(task.artist);
         dataMusic.setText(task.date);
         if (task.photoPath != null && !task.photoPath.isEmpty()) {
-            if (task.photoPath.contains("drawable")) {
-                Drawable taskDrawable;
-                switch (task.photoPath) {
-//                    case "drawable 1":
-//                        taskDrawable = activity.getResources().getDrawable(R.drawable.circle_drawable_red);
-//                        break;
-//                    case "drawable 2":
-//                        taskDrawable = activity.getResources().getDrawable(R.drawable.circle_drawable_red);
-//                        break;
-//                    case "drawable 3":
-//                        taskDrawable = activity.getResources().getDrawable(R.drawable.circle_drawable_red);
-//                        break;
-//                    default:
-//                        taskDrawable = activity.getResources().getDrawable(R.drawable.circle_drawable_red);
-                }
-//                attractionInfoImage.setImageDrawable(taskDrawable);
-            } else {
-                Handler handler = new Handler();
+
+            Handler handler = new Handler();
+
+            if (task.photoPath.contains("android.resource")) {
 
                 img.setVisibility(View.VISIBLE);
 
@@ -80,17 +66,45 @@ public class DetailsMusicFragment extends Fragment {
                     public void run() {
                         img.setVisibility(View.VISIBLE);
 
-                        Bitmap cameraImage = PicUtils.decodePic(task1.photoPath,
+                        final BitmapFactory.Options options = new BitmapFactory.Options();
+
+                        options.inSampleSize = calculateInSampleSize(options,
                                 img.getWidth(),
                                 img.getHeight());
 
-                        img.setImageBitmap(cameraImage);
-                    }
-                }, 200);
+                        options.inJustDecodeBounds = false;
 
-            }
-        } else {
+                        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                                Integer.parseInt(task1.photoPath.substring(task1.photoPath.lastIndexOf("/") + 1)),
+                                        options);
+
+                        img.setImageBitmap(bitmap);}
+                    }, 200);
+
+                } else {
+                  //  Handler handler = new Handler();
+
+                    img.setVisibility(View.VISIBLE);
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            img.setVisibility(View.VISIBLE);
+
+                            Bitmap cameraImage = PicUtils.decodePic(task1.photoPath,
+                                    img.getWidth(),
+                                    img.getHeight());
+
+                            img.setImageBitmap(cameraImage);
+                        }
+                    }, 200);
+
+                }
         }
         task1 = task;
+    ;
     }
+
+
 }
+

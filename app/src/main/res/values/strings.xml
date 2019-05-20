@@ -7,4 +7,16 @@
     <string name="default_artist">default artist</string>
     <string name="default_date">default date</string>
     <string name="myFileprovider">com.example.homework2.fileprovider</string>
+    <string name="delete_question">Are you sure?</string>
+    <string name="dialog_confirm">Yes</string>
+    <string name="dialog_cancel">No</string>
+    <string name="deleteCancel">dupa:(</string>
+    <string name="retryMessage">Try again</string>
+    <string name="tag">tag</string>
+    <string name="msg">Delete</string>
+    <array name="drawables">
+        <item>@drawable/pobrane</item>
+        <item>@drawable/pobrane2</item>
+        <item>@drawable/pobrane3</item>
+    </array>
 </resources>

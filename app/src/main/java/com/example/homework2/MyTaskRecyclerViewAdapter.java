@@ -2,6 +2,7 @@ package com.example.homework2;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import com.example.homework2.TaskFragment.OnListFragmentInteractionListener;
 import com.example.homework2.task.TaskListContent;
 
 import java.util.List;
+
+import static com.example.homework2.PicUtils.calculateInSampleSize;
 
 
 public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecyclerViewAdapter.ViewHolder> {
@@ -43,8 +46,25 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         Context context = holder.mView.getContext(); //?
 
         if (photoPath != null && !photoPath.isEmpty()) {
-            Bitmap camera = PicUtils.decodePic(task.photoPath, 100, 100);
-            holder.mImageView.setImageBitmap(camera);
+
+            if (photoPath.contains("android.resource")) {
+                final BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = calculateInSampleSize(options,
+                        100,
+                        100);
+
+                options.inJustDecodeBounds = false;
+                Bitmap bitmap = BitmapFactory.decodeResource(holder.mView.getContext().getResources(),
+                        Integer.parseInt(task.photoPath.substring(task.photoPath.lastIndexOf("/") + 1)),
+                        options);
+
+                holder.mImageView.setImageBitmap(bitmap);
+            }
+
+            } else {
+        Bitmap camera = PicUtils.decodePic(task.photoPath, 100, 100);
+        holder.mImageView.setImageBitmap(camera);
+
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +113,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mTextView = view.findViewById(R.id.textView);
+            mTextView = view.findViewById(R.id.titleTextView);
             mImageView = view.findViewById(R.id.imageView);
             buttonDelete = view.findViewById(R.id.buttonDelete);
         }

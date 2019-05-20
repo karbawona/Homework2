@@ -16,7 +16,7 @@ public class PicUtils {
         return BitmapFactory.decodeFile(pPath, options);
     }
 
-    private static int calculateInSampleSize(Options options, int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
